@@ -10,21 +10,21 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
     <context:annotation-config/>
-    
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    
-    <!-- 
-    p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost/board"   
+
+    <!--
+    p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost/board"
 	p:driverClassName="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" p:url="jdbc:log4jdbc:mysql://localhost/board"
 	-->
 	<!-- mysql port is 3307 (in my case) -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-		  p:driverClassName="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" p:url="jdbc:log4jdbc:mysql://localhost:3307/pms9?useUnicode=true&amp;characterEncoding=utf8" 
-          p:username="root" p:password="1qaz2wsx"
+		  p:driverClassName="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" p:url="jdbc:log4jdbc:mysql://us-cdbr-iron-east-03.cleardb.net:3306/ad_e8c241dd7aeef27?useUnicode=true&amp;characterEncoding=utf8"
+          p:username="b42a76b95b29bf" p:password="035f347f"
           p:initialSize="2"
           p:maxActive="30"
           p:maxIdle="10"
-          p:minIdle="3"  
+          p:minIdle="3"
           p:maxWait="30000"
           p:removeAbandoned="true"
           p:removeAbandonedTimeout="30"
@@ -38,8 +38,8 @@
 
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSession"></constructor-arg>
-    </bean>  
-    
+    </bean>
+
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
@@ -60,7 +60,7 @@
 		<property name="fallbackToSystemLocale" value="false" />
 		<property name="cacheSeconds" value="10"/>
 	</bean>
- 
+
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" >
 		<property name="defaultLocale" value="ko" />
 	</bean>
@@ -71,5 +71,5 @@
     <bean id="message" class="gu.common.LocaleMessage">
         <property name="messageSourceAccessor" ref="messageSourceAccessor"/>
     </bean>
-    		    
+
 </beans>
