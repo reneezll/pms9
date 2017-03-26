@@ -228,6 +228,17 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
+CREATE TABLE `jenkins_conf` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`host` VARCHAR(100) NOT NULL DEFAULT '0',
+	`userid` VARCHAR(100) NOT NULL DEFAULT '0',
+	`userpw` VARCHAR(100) NOT NULL DEFAULT '0',
+	`viewname` VARCHAR(100) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`)
+)
+COMMENT='jenkins config(host, id,pw)'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
 
 DELIMITER $$
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="jenkins.conf">
+
+    <insert id="insert" parameterType="gu.domain.jenkins.model.JenkinsModel">
+        INSERT INTO jenkins_conf(
+            id,
+            host,
+            userid,
+            userpw,
+            viewname
+        )
+        VALUES(
+            #{id},
+            #{host},
+            #{userid},
+            #{userpw},
+            #{viewname}
+        )
+    </insert>
+
+    <select id="select" resultType="gu.domain.jenkins.model.JenkinsModel">
+        SELECT
+            id,
+            host,
+            userid,
+            userpw,
+            viewname
+        FROM jenkins_conf
+        ORDER BY id ASC
+    </select>
+
+</mapper>
+
