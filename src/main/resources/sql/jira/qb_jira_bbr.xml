@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="jira.bbr">
+
+    <insert id="insertBbr" parameterType="gu.domain.jira.model.BounceBackRateModel">
+        INSERT INTO jira_bounce_back_rate (
+            id,
+            projectkey,
+            bbr_numerator,
+            bbr_denominator,
+            reopentype,
+            bbr_date
+        )
+        VALUES(
+            #{id},
+            #{projectkey},
+            #{bbr_numerator},
+            #{bbr_denominator},
+            #{reopentype},
+            now()
+        )
+    </insert>
+
+    <select id="selectByKey" resultType="gu.domain.jira.model.BounceBackRateModel"
+    parameterType="gu.domain.jira.model.param.BbrSearchVO">
+        SELECT
+            id,
+            projectkey,
+            bbr_numerator,
+            bbr_denominator,
+            reopentype,
+            bbr_date
+        FROM jira_bounce_back_rate
+        WHERE
+            projectkey=#{projectkey}
+            AND reopentype=#{reopentype}
+        ORDER BY bbr_date ASC
+    </select>
+
+</mapper>
+

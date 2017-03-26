@@ -180,6 +180,54 @@ CREATE TABLE TBL_CRUD(
 
 -- DROP FUNCTION uf_datetime2string;
 
+CREATE TABLE `jira_bounce` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`projectkey` VARCHAR(50) NULL DEFAULT '0',
+	`issueno` VARCHAR(50) NULL DEFAULT '0',
+	`userid` VARCHAR(50) NULL DEFAULT '0',
+	`reopendate` DATE NULL DEFAULT NULL,
+	`reopentype` INT(11) NULL DEFAULT '0' COMMENT 'resolved->reopen(0), closed->reopen(1)',
+	`deleteflag` CHAR(1) NULL DEFAULT 'N',
+	PRIMARY KEY (`id`)
+)
+COMMENT='bounce back rate '
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+CREATE TABLE `jira_bounce_back_rate` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`projectkey` VARCHAR(50) NULL DEFAULT '0' COMMENT 'project key',
+	`bbr_numerator` INT(11) NULL DEFAULT '0' COMMENT 'numerator of bounce back rate',
+	`bbr_denominator` INT(11) NULL DEFAULT '0' COMMENT 'denominator of bounce back rate',
+	`reopentype` INT(11) NULL DEFAULT '0' COMMENT 'resolved->reopen(0), closed->reopen(1)',
+	`bbr_date` DATE NULL DEFAULT NULL,
+	`issue_details` MEDIUMTEXT NULL COMMENT 'list of reopen issues',
+	PRIMARY KEY (`id`)
+)
+COMMENT='bounce back rate : daily stastics'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `proj_project` (
+	`prno` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Project Number',
+	`prstartdate` VARCHAR(10) NULL DEFAULT NULL COMMENT 'Start date',
+	`prenddate` VARCHAR(10) NULL DEFAULT NULL COMMENT 'End date',
+	`prtitle` VARCHAR(100) NULL DEFAULT NULL COMMENT 'Project title',
+	`prdate` DATETIME NULL DEFAULT NULL COMMENT 'Register date',
+	`userid` VARCHAR(50) NULL DEFAULT NULL COMMENT 'User id',
+	`prstatus` CHAR(1) NULL DEFAULT NULL COMMENT 'Project status(in-progress/done)',
+	`deleteflag` CHAR(1) NULL DEFAULT NULL COMMENT 'delete flag',
+	`projectkey` VARCHAR(50) NOT NULL COMMENT 'Project key',
+	`org` VARCHAR(50) NULL DEFAULT NULL COMMENT 'organization(ex. AVN2 ED)',
+	`oem` VARCHAR(50) NULL DEFAULT NULL COMMENT 'OEM (ex. GM)',
+	PRIMARY KEY (`prno`)
+)
+COMMENT='프로젝트'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
 
 DELIMITER $$
 

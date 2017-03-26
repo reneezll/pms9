@@ -24,7 +24,7 @@ public class JenkinsScheduler {
 	
 	@Scheduled(fixedDelay=3000)
 	public void insertOrUpdateBuildStatus() {
-		System.out.println("[scheduler][jenkins]");
+
 		
 	}
 	
