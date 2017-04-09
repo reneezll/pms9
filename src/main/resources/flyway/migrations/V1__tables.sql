@@ -1,184 +1,74 @@
+-- --------------------------------------------------------
+-- 호스트:                          127.0.0.1
+-- 서버 버전:                        5.7.17-log - MySQL Community Server (GPL)
+-- 서버 OS:                        Win64
+-- HeidiSQL 버전:                  9.4.0.5125
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
-CREATE TABLE PRJ_PROJECT(
-		PRNO                          		INT		 NOT NULL AUTO_INCREMENT COMMENT '프로젝트 번호',
-		PRSTARTDATE                   		VARCHAR(10)		 NULL  COMMENT '시작일자',
-		PRENDDATE                     		VARCHAR(10)		 NULL  COMMENT '종료일자',
-		PRTITLE                       		VARCHAR(100)		 NULL  COMMENT '프로젝트 제목',
-		PRDATE                        		DATETIME		 NULL  COMMENT '작성일자',
-		USERNO                        		INT		 NULL  COMMENT '사용자번호',
-		PRSTATUS                      		CHAR(1)		 NULL  COMMENT '상태',
-		DELETEFLAG                    		CHAR(1)		 NULL  COMMENT '삭제',
-        PRIMARY KEY (PRNO)
-) COMMENT='프로젝트';
-
-CREATE TABLE PRJ_TASK(
-		PRNO                          		INT		 	 NULL  COMMENT '프로젝트 번호',
-		TSNO                          		BIGINT		 NOT NULL AUTO_INCREMENT COMMENT '업무번호',
-		TSPARENT                      		BIGINT		 NULL  COMMENT '부모업무번호',
-		TSSORT                        		MEDIUMINT(10) NULL  COMMENT '정렬',
-		TSTITLE                       		VARCHAR(100) NULL  COMMENT '업무 제목',
-		TSSTARTDATE                   		VARCHAR(10)	 NULL  COMMENT '시작일자',
-		TSENDDATE                     		VARCHAR(10)	 NULL  COMMENT '종료일자',
-		TSENDREAL                     		VARCHAR(10)	 NULL  COMMENT '종료일자(실제)',
-		TSRATE                        		SMALLINT	 NULL  COMMENT '진행율',
-		OLDNO								BIGINT		 NULL  COMMENT '이전업무번호',
-		DELETEFLAG                    		CHAR(1)		 NULL  COMMENT '삭제',
-        PRIMARY KEY (TSNO)
-) COMMENT='프로젝트 업무';
-
-CREATE TABLE PRJ_TASKUSER(
-		TSNO                          		BIGINT		 NOT NULL COMMENT '업무번호',
-		USERNO                        		INT		 	NOT NULL COMMENT '사용자번호',
-        PRIMARY KEY (TSNO, USERNO)
-) COMMENT='업무할당';
-
-CREATE TABLE PRJ_TASKFILE(
-		TSNO                          		BIGINT		 NULL  COMMENT '업무번호',
-		FILENO                        		INT(10)		 NOT NULL AUTO_INCREMENT COMMENT '파일번호',
-		FILENAME                      		VARCHAR(100) NULL  COMMENT '파일명',
-		REALNAME                      		VARCHAR(30)	 NULL  COMMENT '실제파일명',
-		FILESIZE                      		INT(10)		 NULL  COMMENT '파일크기',
-        PRIMARY KEY (FILENO)
-) COMMENT='첨부파일';
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
---------------------------- Project 9 --------------------------- 
--- DROP TABLE COM_CODE;
+-- pms9 데이터베이스 구조 내보내기
+CREATE DATABASE IF NOT EXISTS `pms9` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `pms9`;
 
-CREATE TABLE COM_CODE(
-  CLASSNO 	INT(11),				-- 대분류
-  CODECD 	VARCHAR(10),			-- 코드
-  CODENM 	VARCHAR(30),			-- 코드명
-  PRIMARY KEY (CLASSNO, CODECD)
-) ;
+-- 테이블 pms9.com_code 구조 내보내기
+CREATE TABLE IF NOT EXISTS `com_code` (
+  `CLASSNO` int(11) NOT NULL,
+  `CODECD` varchar(10) NOT NULL,
+  `CODENM` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`CLASSNO`,`CODECD`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- DROP TABLE COM_DEPT;
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.com_dept 구조 내보내기
+CREATE TABLE IF NOT EXISTS `com_dept` (
+  `DEPTNO` int(11) NOT NULL,
+  `DEPTNM` varchar(20) DEFAULT NULL,
+  `PARENTNO` int(11) DEFAULT NULL,
+  `DELETEFLAG` char(1) DEFAULT NULL,
+  PRIMARY KEY (`DEPTNO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE COM_DEPT(
-  DEPTNO 	INT(11),   				-- 부서 번호
-  DEPTNM 	VARCHAR(20),            -- 부서명
-  PARENTNO  INT(11),                -- 부모 부서
-  DELETEFLAG CHAR(1),    	        -- 삭제 여부
-  PRIMARY KEY (DEPTNO)
-) ;
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.com_loginout 구조 내보내기
+CREATE TABLE IF NOT EXISTS `com_loginout` (
+  `LNO` int(11) NOT NULL AUTO_INCREMENT,
+  `USERNO` int(11) DEFAULT NULL,
+  `LTYPE` char(1) DEFAULT NULL,
+  `LDATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`LNO`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.com_user 구조 내보내기
+CREATE TABLE IF NOT EXISTS `com_user` (
+  `USERNO` int(11) NOT NULL AUTO_INCREMENT,
+  `USERID` varchar(20) DEFAULT NULL,
+  `USERNM` varchar(20) DEFAULT NULL,
+  `USERPW` varchar(100) DEFAULT NULL,
+  `USERROLE` char(1) DEFAULT NULL,
+  `PHOTO` varchar(50) DEFAULT NULL,
+  `DEPTNO` int(11) DEFAULT NULL,
+  `DELETEFLAG` char(1) DEFAULT NULL,
+  PRIMARY KEY (`USERNO`)
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 
--- DROP TABLE COM_USER;
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.cq_swmd_result 구조 내보내기
+CREATE TABLE IF NOT EXISTS `cq_swmd_result` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `swmd_key` varchar(100) NOT NULL COMMENT 'project key on',
+  `compare_date` date DEFAULT NULL,
+  `signal_date` date DEFAULT NULL,
+  `signal_dict` mediumtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='code quality';
 
-CREATE TABLE COM_USER(
-  USERNO 	INT(11) NOT NULL AUTO_INCREMENT,	-- 사용자 번호
-  USERID 	VARCHAR(20),                    	-- ID
-  USERNM 	VARCHAR(20),                    	-- 이름
-  USERPW 	VARCHAR(100),                    	-- 비밀번호
-  USERROLE	CHAR(1),                    		-- 권한
-  PHOTO 	VARCHAR(50),                   		-- 사진
-  DEPTNO	INT,
-  DELETEFLAG CHAR(1),    	                 	-- 삭제 여부
-  PRIMARY KEY (USERNO)
-) ;
-
-/*------------------------------------------*/
-
--- DROP TABLE TBL_BOARD;
-
-CREATE TABLE TBL_BOARD (
-  BGNO INT(11),                             -- 게시판 그룹번호
-  BRDNO INT(11) NOT NULL AUTO_INCREMENT,    -- 글 번호
-  BRDTITLE VARCHAR(255),                    -- 글 제목
-  USERNO 	INT,                    		-- 작성자
-  BRDMEMO   MEDIUMTEXT,		                -- 글 내용
-  BRDDATE   DATETIME,                       -- 작성일자
-  BRDNOTICE VARCHAR(1),                     -- 공지사항여부
-  LASTDATE  DATETIME, 
-  LASTUSERNO  	INT, 
-  BRDLIKE 		INT default 0,             	-- 좋아요
-  BRDDELETEFLAG CHAR(1),                    -- 삭제 여부
-  PRIMARY KEY (BRDNO)
-) ;
-
--- DROP TABLE TBL_BOARDFILE;
-
-CREATE TABLE TBL_BOARDFILE (
-    FILENO INT(11)  NOT NULL AUTO_INCREMENT, -- 파일 번호
-    BRDNO INT(11),                           -- 글번호
-    FILENAME VARCHAR(100),                   -- 파일명
-    REALNAME VARCHAR(30),                    -- 실제파일명
-    FILESIZE INT,                            -- 파일 크기
-    PRIMARY KEY (FILENO)
-);
-
-CREATE TABLE TBL_BOARDLIKE (
-    BLNO INT(11)  NOT NULL AUTO_INCREMENT,  -- 번호
-    BRDNO INT(11),                          -- 글번호
-	USERNO 	INT,                    		-- 작성자
-	BLDATE  DATETIME, 						-- 일자
-    PRIMARY KEY (BLNO)
-);
-
--- DROP TABLE TBL_BOARDREPLY;
-
-CREATE TABLE TBL_BOARDREPLY (
-    BRDNO INT(11) NOT NULL,                 -- 게시물 번호
-    RENO INT(11) NOT NULL,                  -- 댓글 번호
-	USERNO 	INT,                    		-- 작성자
-    REMEMO VARCHAR(500) DEFAULT NULL,       -- 댓글내용
-	REPARENT INT(11),						-- 부모 댓글
-	REDEPTH INT,							-- 깊이
-	REORDER INT,							-- 순서
-    REDATE DATETIME DEFAULT NULL,           -- 작성일자
-    REDELETEFLAG VARCHAR(1) NOT NULL,       -- 삭제여부
-	LASTDATE  DATETIME, 
-    LASTUSERNO  INT, 
-
-    PRIMARY KEY (RENO)
-);
-
--- DROP TABLE TBL_BOARDREAD;
-
-CREATE TABLE TBL_BOARDREAD (
-	BRDNO INT(11) NOT NULL,                 -- 게시물 번호
-	USERNO 	INT,          			     	-- 작성자
-	READDATE DATETIME,						-- 작성일자
-	PRIMARY KEY (BRDNO, USERNO)
-);
-
-
--- DROP TABLE TBL_BOARDGROUP;
-
-CREATE TABLE TBL_BOARDGROUP (
-  BGNO INT(11) NOT NULL AUTO_INCREMENT,     -- 게시판 그룹번호
-  BGNAME VARCHAR(50),                       -- 게시판 그룹명
-  BGPARENT INT(11),                         -- 게시판 그룹 부모
-  BGDELETEFLAG CHAR(1),                     -- 삭제 여부
-  BGUSED CHAR(1),                           -- 사용 여부
-  BGREPLY CHAR(1),                          -- 댓글 사용여부
-  BGREADONLY CHAR(1),                       -- 글쓰기 가능 여부
-  BGNOTICE CHAR(1),                       	-- 공지 쓰기  가능 여부
-  BGDATE DATETIME,                          -- 생성일자
-  PRIMARY KEY (BGNO)
-);
-
--- DROP TABLE COM_LOGINOUT;
-
-CREATE TABLE COM_LOGINOUT (
-  LNO 		INT(11) NOT NULL AUTO_INCREMENT,    -- 순번
-  USERNO 	INT,                    			-- 로그인 사용자
-  LTYPE 	CHAR(1),                       		-- in / out
-  LDATE 	DATETIME,                          	-- 발생일자
-  PRIMARY KEY (LNO)
-);
-
-CREATE TABLE TBL_CRUD(
-  CRNO INT NOT NULL AUTO_INCREMENT,	-- 번호
-  CRTITLE  	VARCHAR(255),     		-- 제목
-  USERNO 	INT,            		-- 작성자
-  CRMEMO   	MEDIUMTEXT,				-- 내용
-  CRDATE   	DATETIME,        		-- 작성일자
-  CRDELETEFLAG CHAR(1),     		-- 삭제 여부
-  PRIMARY KEY (CRNO)
-) ;
-
--- DROP FUNCTION uf_datetime2string;
 
 CREATE TABLE `jira_bounce` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -194,20 +84,159 @@ COMMENT='bounce back rate '
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
-CREATE TABLE `jira_bounce_back_rate` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`projectkey` VARCHAR(50) NULL DEFAULT '0' COMMENT 'project key',
-	`bbr_numerator` INT(11) NULL DEFAULT '0' COMMENT 'numerator of bounce back rate',
-	`bbr_denominator` INT(11) NULL DEFAULT '0' COMMENT 'denominator of bounce back rate',
-	`reopentype` INT(11) NULL DEFAULT '0' COMMENT 'resolved->reopen(0), closed->reopen(1)',
-	`bbr_date` DATE NULL DEFAULT NULL,
-	`issue_details` MEDIUMTEXT NULL COMMENT 'list of reopen issues',
-	PRIMARY KEY (`id`)
-)
-COMMENT='bounce back rate : daily stastics'
-COLLATE='utf8_general_ci'
-ENGINE=InnoDB
-;
+
+-- 테이블 pms9.jira_bounce_back_rate 구조 내보내기
+CREATE TABLE IF NOT EXISTS `jira_bounce_back_rate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `projectkey` varchar(50) DEFAULT '0' COMMENT 'project key',
+  `bbr_numerator` int(11) DEFAULT '0' COMMENT 'numerator of bounce back rate',
+  `bbr_denominator` int(11) DEFAULT '0' COMMENT 'denominator of bounce back rate',
+  `reopentype` int(11) DEFAULT '0' COMMENT 'resolved->reopen(0), closed->reopen(1)',
+  `bbr_date` date DEFAULT NULL,
+  `issue_details` mediumtext COMMENT 'list of reopen issues',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='bounce back rate : daily stastics';
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.prj_project 구조 내보내기
+CREATE TABLE IF NOT EXISTS `prj_project` (
+  `PRNO` int(11) NOT NULL AUTO_INCREMENT COMMENT '프로젝트 번호',
+  `PRSTARTDATE` varchar(10) DEFAULT NULL COMMENT '시작일자',
+  `PRENDDATE` varchar(10) DEFAULT NULL COMMENT '종료일자',
+  `PRTITLE` varchar(100) DEFAULT NULL COMMENT '프로젝트 제목',
+  `PRDATE` datetime DEFAULT NULL COMMENT '작성일자',
+  `USERNO` int(11) DEFAULT NULL COMMENT '사용자번호',
+  `PRSTATUS` char(1) DEFAULT NULL COMMENT '상태',
+  `DELETEFLAG` char(1) DEFAULT NULL COMMENT '삭제',
+  PRIMARY KEY (`PRNO`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='프로젝트';
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.prj_task 구조 내보내기
+CREATE TABLE IF NOT EXISTS `prj_task` (
+  `PRNO` int(11) DEFAULT NULL COMMENT '프로젝트 번호',
+  `TSNO` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '업무번호',
+  `TSPARENT` bigint(20) DEFAULT NULL COMMENT '부모업무번호',
+  `TSSORT` mediumint(10) DEFAULT NULL COMMENT '정렬',
+  `TSTITLE` varchar(100) DEFAULT NULL COMMENT '업무 제목',
+  `TSSTARTDATE` varchar(10) DEFAULT NULL COMMENT '시작일자',
+  `TSENDDATE` varchar(10) DEFAULT NULL COMMENT '종료일자',
+  `TSENDREAL` varchar(10) DEFAULT NULL COMMENT '종료일자(실제)',
+  `TSRATE` smallint(6) DEFAULT NULL COMMENT '진행율',
+  `OLDNO` bigint(20) DEFAULT NULL COMMENT '이전업무번호',
+  `DELETEFLAG` char(1) DEFAULT NULL COMMENT '삭제',
+  PRIMARY KEY (`TSNO`)
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 COMMENT='프로젝트 업무';
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.prj_taskfile 구조 내보내기
+CREATE TABLE IF NOT EXISTS `prj_taskfile` (
+  `TSNO` bigint(20) DEFAULT NULL COMMENT '업무번호',
+  `FILENO` int(10) NOT NULL AUTO_INCREMENT COMMENT '파일번호',
+  `FILENAME` varchar(100) DEFAULT NULL COMMENT '파일명',
+  `REALNAME` varchar(30) DEFAULT NULL COMMENT '실제파일명',
+  `FILESIZE` int(10) DEFAULT NULL COMMENT '파일크기',
+  PRIMARY KEY (`FILENO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='첨부파일';
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.prj_taskuser 구조 내보내기
+CREATE TABLE IF NOT EXISTS `prj_taskuser` (
+  `TSNO` bigint(20) NOT NULL COMMENT '업무번호',
+  `USERNO` int(11) NOT NULL COMMENT '사용자번호',
+  PRIMARY KEY (`TSNO`,`USERNO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='업무할당';
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.tbl_board 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tbl_board` (
+  `BGNO` int(11) DEFAULT NULL,
+  `BRDNO` int(11) NOT NULL AUTO_INCREMENT,
+  `BRDTITLE` varchar(255) DEFAULT NULL,
+  `USERNO` int(11) DEFAULT NULL,
+  `BRDMEMO` mediumtext,
+  `BRDDATE` datetime DEFAULT NULL,
+  `BRDNOTICE` varchar(1) DEFAULT NULL,
+  `LASTDATE` datetime DEFAULT NULL,
+  `LASTUSERNO` int(11) DEFAULT NULL,
+  `BRDLIKE` int(11) DEFAULT '0',
+  `BRDDELETEFLAG` char(1) DEFAULT NULL,
+  PRIMARY KEY (`BRDNO`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.tbl_boardfile 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tbl_boardfile` (
+  `FILENO` int(11) NOT NULL AUTO_INCREMENT,
+  `BRDNO` int(11) DEFAULT NULL,
+  `FILENAME` varchar(100) DEFAULT NULL,
+  `REALNAME` varchar(30) DEFAULT NULL,
+  `FILESIZE` int(11) DEFAULT NULL,
+  PRIMARY KEY (`FILENO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.tbl_boardgroup 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tbl_boardgroup` (
+  `BGNO` int(11) NOT NULL AUTO_INCREMENT,
+  `BGNAME` varchar(50) DEFAULT NULL,
+  `BGPARENT` int(11) DEFAULT NULL,
+  `BGDELETEFLAG` char(1) DEFAULT NULL,
+  `BGUSED` char(1) DEFAULT NULL,
+  `BGREPLY` char(1) DEFAULT NULL,
+  `BGREADONLY` char(1) DEFAULT NULL,
+  `BGNOTICE` char(1) DEFAULT NULL,
+  `BGDATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`BGNO`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.tbl_boardlike 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tbl_boardlike` (
+  `BLNO` int(11) NOT NULL AUTO_INCREMENT,
+  `BRDNO` int(11) DEFAULT NULL,
+  `USERNO` int(11) DEFAULT NULL,
+  `BLDATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`BLNO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.tbl_boardread 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tbl_boardread` (
+  `BRDNO` int(11) NOT NULL,
+  `USERNO` int(11) NOT NULL,
+  `READDATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`BRDNO`,`USERNO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.tbl_boardreply 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tbl_boardreply` (
+  `BRDNO` int(11) NOT NULL,
+  `RENO` int(11) NOT NULL,
+  `USERNO` int(11) DEFAULT NULL,
+  `REMEMO` varchar(500) DEFAULT NULL,
+  `REPARENT` int(11) DEFAULT NULL,
+  `REDEPTH` int(11) DEFAULT NULL,
+  `REORDER` int(11) DEFAULT NULL,
+  `REDATE` datetime DEFAULT NULL,
+  `REDELETEFLAG` varchar(1) NOT NULL,
+  `LASTDATE` datetime DEFAULT NULL,
+  `LASTUSERNO` int(11) DEFAULT NULL,
+  PRIMARY KEY (`RENO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+-- 테이블 pms9.tbl_crud 구조 내보내기
+CREATE TABLE IF NOT EXISTS `tbl_crud` (
+  `CRNO` int(11) NOT NULL AUTO_INCREMENT,
+  `CRTITLE` varchar(255) DEFAULT NULL,
+  `USERNO` int(11) DEFAULT NULL,
+  `CRMEMO` mediumtext,
+  `CRDATE` datetime DEFAULT NULL,
+  `CRDELETEFLAG` char(1) DEFAULT NULL,
+  PRIMARY KEY (`CRNO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `proj_project` (
 	`prno` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Project Number',
@@ -312,3 +341,8 @@ BEGIN
 
 RETURN bgcolor_;
 END $$
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
