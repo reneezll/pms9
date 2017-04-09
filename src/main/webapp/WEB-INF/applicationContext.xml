@@ -19,8 +19,8 @@
 	-->
 	<!-- mysql port is 3307 (in my case) -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-		  p:driverClassName="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" p:url="jdbc:log4jdbc:mysql://localhost:3306/pms9?useUnicode=true&amp;characterEncoding=utf8"
-          p:username="root" p:password="123456"
+		  p:driverClassName="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" p:url="jdbc:log4jdbc:mysql://localhost:3307/pms9?useUnicode=true&amp;characterEncoding=utf8"
+          p:username="root" p:password="1qaz2wsx"
           p:initialSize="2"
           p:maxActive="30"
           p:maxIdle="10"

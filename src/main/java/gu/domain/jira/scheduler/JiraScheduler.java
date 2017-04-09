@@ -26,10 +26,10 @@ public class JiraScheduler {
 	public void insertBbr(){
 		System.out.println("[insertBbr]");
 //		BounceBackRateModel bbrModel = new BounceBackRateModel();
-//		bbrModel.setProjectkey("TCPXI");
+//		bbrModel.setProjectkey("aaa");
 //		bbrModel.setReopentype(JiraConst.BBR_RSLV_REOPEN);
 		BbrSearchVO searchVO = new BbrSearchVO();
-		searchVO.setProjectkey("TCPXI");
+		searchVO.setProjectkey("aaa");
 		searchVO.setReopentype(JiraConst.BBR_RSLV_REOPEN);
 		List<?> bbrLists = bbrDao.selectByKey(searchVO);
 		for (int i =0 ; i< bbrLists.size(); i++){
